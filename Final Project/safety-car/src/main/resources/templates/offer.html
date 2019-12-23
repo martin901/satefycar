@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Offer</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="/images/icons/favicon.png"/>
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/vendor/bootstrap/css/bootstrap.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/fonts/iconic/css/material-design-iconic-font.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/vendor/animate/animate.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/vendor/css-hamburgers/hamburgers.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/vendor/animsition/css/animsition.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/vendor/select2/select2.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/vendor/daterangepicker/daterangepicker.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/css/login-util.css">
+    <link rel="stylesheet" type="text/css" href="/css/login-main.css">
+    <!--===============================================================================================-->
+    <style>
+        input[type="file"] {
+            position: absolute;
+            left: -99999rem;
+        }
+
+        .custom-file-upload {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            display: inline-flex;
+            padding: 6px 12px;
+            cursor: pointer;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <a href="/"><span class="login100">
+		<img src="/images/avatar-01.png"
+             style="width: 73px; position: relative; margin: 20px; -webkit-filter: drop-shadow(5px 5px 5px #ddd); filter: drop-shadow(5px 5px 5px #ddd);"
+             alt="LOGO">
+	</span></a>
+    <span class="login100-form-title p-b-70"
+          style="text-shadow: -6px 6px 10px rgba(116,116,116,0.6); width: 70%; margin:0 auto; height: 0px; position: relative; bottom: 90px; font-size: 60px;">
+		Offer
+	</span>
+</div>
+
+<div class="limiter">
+    <div class="container container-login100" style="margin: 0 auto; min-height: 0; position: relative;">
+        <div class="wrap-login100 p-t-5 p-b-20" style="width: 100%;">
+            <div class="row" style="width: 100%; padding-top:10px; margin:0 auto;">
+                <div class="border border-danger rounded"
+                     style="box-shadow: -34px 28px 39px -33px rgba(135,135,135,0.83); position: relative; margin-bottom: 10px; padding: 40px; min-width: 50%">
+                    <strong style="position: relative; font-size: 30px;color: transparent;background: #666666;-webkit-background-clip: text;-moz-background-clip: text;background-clip: text;text-shadow: 0px 3px 3px rgba(255,255,255,0.5);">
+                        Basic Info</strong>
+                    <div class="row" style="position: relative;">
+                        <div class="m-t-55 m-b-20">
+                            <h4 style="color: gray; display: inline; float: left;">Car:&nbsp</h4>
+                            <h4 id="carmodel"
+                                th:text="${preOfferResult.offer.carModel.carBrand.brandName}+' '+${preOfferResult.offer.carModel.modelName}"
+                                style="display: inline;"></h4>
+                        </div>
+                    </div>
+
+                    <div class="row" style="position: relative;">
+                        <div class="m-b-20">
+                            <h4 style="color: gray; display: inline; float: left;">Engine Capacity:&nbsp</h4>
+                            <h4 id="cc" th:text="${preOfferResult.offer.cubicCapacity}+'cc'"
+                                style="display: inline; width: 100px"></h4>
+                        </div>
+                    </div>
+
+                    <div class="row" style="position: relative;">
+                        <div class="m-b-20">
+                            <h4 style="color: gray; display: inline; float: left; width: 210px;">First
+                                Registration:&nbsp</h4>
+                            <h4 id="firstRegDate"
+                                th:text="${preOfferResult.offer.firstRegDate.getDayOfMonth()}+'/'+${preOfferResult.offer.firstRegDate.getMonthValue()}+'/'+${preOfferResult.offer.firstRegDate.getYear()}"
+                                style="width: 0; display: inline;"></h4>
+                        </div>
+                    </div>
+
+                    <div class="row" style="position: relative;">
+                        <div class="m-b-20">
+                            <h4 style="color: gray; display: inline; float: left">Driver Age:&nbsp</h4>
+                            <h4 id="driverAge" style="display: inline;"
+                                th:text="${preOfferResult.offer.driverAge}"></h4>
+                        </div>
+                    </div>
+
+                    <div class="row" style="position: relative;">
+                        <div class="m-b-20">
+                            <h4 style="color: gray; display: inline; width: 100%; float: left">Had accident previous
+                                years:&nbsp;</h4>
+                            <h4 th:if="${preOfferResult.offer.hadAccident}"
+                                style="width: 0; display: inline;">Yes</h4>
+                            <h4 th:unless="${preOfferResult.offer.hadAccident}"
+                                style="width: 0; display: inline;">No</h4>
+                        </div>
+                    </div>
+
+                    <div class="row" style="position: relative;">
+                        <hr width="90%">
+                        <div class="m-t-55 m-b-35" style="width: 410px">
+                            <strong id="totalPremium"
+                                    style="color: transparent;background: #666666;-webkit-background-clip: text;-moz-background-clip: text;background-clip: text;text-shadow: 0px 3px 3px rgba(255,255,255,0.5); width: 320px; font-size: 30px;"
+                                    th:inline="text">
+                                Total Premium: [[${totalPremium}]] BGN</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="request-info" class="col-md-6" style="min-width: 50%">
+                    <form class="login100-form validate-form calculation col-md-12" th:action="@{/offer}"
+                          enctype="multipart/form-data"
+                          name="calculator"
+                          style="position: relative;width: 100%; padding-right: 0; padding-left: 0; margin: 0"
+                          th:object="${policyrequest}" method="post">
+                        <div class="border border-danger rounded"
+                             style="box-shadow: -34px 28px 39px -33px rgba(135,135,135,0.83); width: 100%; height: 620px; position: relative; margin-bottom: 10px;">
+                            <div class="row" style="width: 65%; margin:0 auto; position: relative;">
+                                <div class="wrap-input100 validate-input m-t-55 m-b-45"
+                                     data-validate="Effective Date">
+                                    <input id="effectiveDate" class="input100" type="date" name="effectiveDate"
+                                           style="font-size: 16px"
+                                           th:field="*{effectiveDate}"
+                                           th:value="${policyrequest.effectiveDate}"
+                                           th:required="required">
+                                    <span class="focus-input100" data-placeholder="Start Date"></span>
+                                    <span th:if="${#fields.hasErrors('effectiveDate')}" th:errors="*{effectiveDate}">
+                                        Effective Date Error
+                                    </span>
+                                    <span th:if="${isClosed}">
+                                        We are closed for today! You can set your effective date for tomorrow!
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="row" style="width: 60%; margin: 0 auto; position: relative;">
+                                <div class="wrap-input100 validate-input m-b-25"
+                                     data-validate="Attach a image" style="height: 55px">
+                                    <label for="docimage" class="custom-file-upload login100-form-btn">
+                                        <i class="fa fa-cloud-upload"></i> Reg. Certificate Image
+                                    </label>
+                                    <input id="docimage" class="input100" type="file" name="docimage"
+                                           accept=".jpg, .jpeg, .png"
+                                           th:filed="*{image}"
+                                           style="margin: 11px;position: relative;right: 12px; height: 30px;"
+                                           th:required="required">
+                                    <label id="file-selected" style="position: relative; bottom: 50px;"></label>
+                                    <span id="imageFormatError" style="display: none">File must be an image!</span>
+                                </div>
+                            </div>
+
+                            <div class="container-login100-form-btn" style="position: absolute; top: 88%;">
+                                <button class="login100-form-btn" style="width: 150px; margin-bottom: 20px"
+                                        type="submit">
+                                    Submit Request
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="dropDownSelect1"></div>
+
+<!--===============================================================================================-->
+<script src="/vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+<script src="/vendor/animsition/js/animsition.min.js"></script>
+<!--===============================================================================================-->
+<script src="/vendor/bootstrap/js/popper.js"></script>
+<script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+<script src="/vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+<script src="/vendor/daterangepicker/moment.min.js"></script>
+<script src="/vendor/daterangepicker/daterangepicker.js"></script>
+<!--===============================================================================================-->
+<script src="/vendor/countdowntime/countdowntime.js"></script>
+<!--===============================================================================================-->
+<script src="/js/login-main.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#docimage').focus();
+        $('#docimage').bind('change', function () {
+            var file = this.files[0];
+            var fileType = file["type"];
+            var validImgTypes = ["image/jpeg", "image/jpg", "image/png"];
+            if ($.inArray(fileType, validImgTypes) < 0) {
+                $('#imageFormatError').css('display', '');
+                this.value = '';
+            } else {
+                $('#imageFormatError').css('display', 'none');
+            }
+        })
+    });
+    $(document).ready(function () {
+        $('input[type="file"]').change(function (e) {
+            var fileName = e.target.files[0].name;
+            $('#file-selected').html('File selected: ' + fileName);
+        });
+    });
+</script>
+</body>
+</html>

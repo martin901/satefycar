@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Register</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="/images/icons/favicon.png"/>
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/vendor/bootstrap/css/bootstrap.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/fonts/iconic/css/material-design-iconic-font.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/vendor/animate/animate.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/vendor/css-hamburgers/hamburgers.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/vendor/animsition/css/animsition.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/vendor/select2/select2.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/vendor/daterangepicker/daterangepicker.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/css/login-util.css">
+    <link rel="stylesheet" type="text/css" href="/css/login-main.css">
+    <!--===============================================================================================-->
+</head>
+<body>
+
+<div class="limiter">
+    <div class="container container-login100">
+        <div class="wrap-login100 p-t-85 p-b-20" style="margin: 0 30px 0 30px;">
+            <form id="submit-form" class="login100-form validate-form"
+                  style="position: relative;" th:action="@{/register}" th:object="${user}"
+                  method="post">
+					<span class="login100-form-title p-b-70">
+						Registration
+					</span>
+                <span class="login100 m-b-55 d-flex align-items-center">
+						<a href="/" style="text-align: center; margin: auto;"><img src="/images/avatar-01.png" style="width: 70%; -webkit-filter: drop-shadow(5px 5px 5px #ddd);
+						filter: drop-shadow(5px 5px 5px #ddd); " alt="LOGO"></a>
+					</span>
+                <div id="mydiv" class="row">
+                    <div class="wrap-input100 validate-input col-md-6 m-b-50"
+                         data-validate="Enter First Name">
+                        <input id="first-name-field" class="input100" type="text" name="firstname"
+                               th:field="*{name.firstName}" th:required="required">
+                        <span class="focus-input100" data-placeholder="First Name"></span>
+                        <span th:if="${#fields.hasErrors('name.firstName')}" th:errors="*{name.firstName}">FirstName Error</span>
+                    </div>
+
+                    <div class="wrap-input100 validate-input col-md-6 m-b-50"
+                         data-validate="Enter Last Name">
+                        <input id="last-name-field" class="input100" type="text" name="lastname"
+                               th:field="*{name.lastName}" th:required="required">
+                        <span class="focus-input100" data-placeholder="Last Name"></span>
+                        <span th:if="${#fields.hasErrors('name.lastName')}"
+                              th:errors="*{name.lastName}">LastName Error</span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="wrap-input100 validate-input col-md-7 m-b-50" data-validate="Enter Email">
+                        <input id="email-field" class="input100" type="email" name="email"
+                               th:field="*{email}" th:required="required">
+                        <span class="focus-input100" data-placeholder="Email"></span>
+                        <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</span>
+                    </div>
+
+                    <div class="wrap-input100 validate-input col-md-5 m-b-50" data-validate="Enter Phone">
+                        <input id="phone-field" class="input100" type="text" name="phone"
+                               th:field="*{phone.phone}" th:required="required">
+                        <span class="focus-input100" data-placeholder="Phone"></span>
+                        <span th:if="${#fields.hasErrors('phone.phone')}" th:errors="*{phone.phone}">Phone Error</span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="wrap-input100 validate-input col-md-12 m-b-50"
+                         data-validate="Enter Address">
+                        <input id="address-field" class="input100" type="text" name="address"
+                               th:field="*{address.address}"
+                               th:required="required">
+                        <span class="focus-input100" data-placeholder="Address"></span>
+                        <span th:if="${#fields.hasErrors('address.address')}" th:errors="*{address.address}">Address Error</span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="wrap-input100 validate-input col-md-12 m-b-50"
+                         data-validate="Enter Username">
+                        <input id="username-field" class="input100" type="text" name="username"
+                               th:field="*{username}" th:required="required">
+                        <span class="focus-input100" data-placeholder="Username"></span>
+                        <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username Error</span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="wrap-input100 validate-input col-md-6 m-b-50"
+                         data-validate="Enter Password">
+                        <input id="password-field" class="input100" type="password" name="pass"
+                               th:field="*{password}" th:required="required">
+                        <span class="focus-input100" data-placeholder="Password"></span>
+                        <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</span>
+                    </div>
+
+                    <div class="wrap-input100 validate-input col-md-6 m-b-50"
+                         data-validate="Enter Password">
+                        <input id="confirm-password-field" class="input100" type="password" name="confirm_pass"
+                               th:required="required">
+                        <span class="focus-input100" data-placeholder="Confirm Password"></span>
+                        <span id="passwords-not-match" style="display: none;">Passwords do not match</span>
+                    </div>
+                </div>
+
+                <div class="container-login100-form-btn">
+                    <button id="signup-btn" class="login100-form-btn" type="submit">
+                        Sign up
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div id="dropDownSelect1"></div>
+
+<!--===============================================================================================-->
+<script src="/vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+<script src="/vendor/animsition/js/animsition.min.js"></script>
+<!--===============================================================================================-->
+<script src="/vendor/bootstrap/js/popper.js"></script>
+<script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+<script src="/vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+<script src="/vendor/daterangepicker/moment.min.js"></script>
+<script src="/vendor/daterangepicker/daterangepicker.js"></script>
+<!--===============================================================================================-->
+<script src="/vendor/countdowntime/countdowntime.js"></script>
+<!--===============================================================================================-->
+<script src="/js/login-main.js"></script>
+<script>
+    $(document).ready(function () {
+        $('input', $('#submit-form')).each(function () {
+            if ($(this).val() !== '') {
+                $(this).focus();
+                $(this).blur();
+            }
+            console.log($(this)); //log every element found to console output
+        });
+        $('#confirm-password-field').focusout(function () {
+            var pass1 = $('#password-field').val();
+            var pass2 = $('#confirm-password-field').val();
+            if (pass1 !== pass2) {
+                $('#passwords-not-match').css('display', '');
+                $('#signup-btn').prop('disabled', true);
+            } else {
+                $('#passwords-not-match').hide();
+                $('#signup-btn').prop('disabled', false);
+            }
+        });
+        $('#submit-form').submit(function (e) {
+            var pass1 = $('#password-field').val();
+            var pass2 = $('#confirm-password-field').val();
+            if (pass1 !== pass2) {
+                e.preventDefault();
+                $('#passwords-not-match').css('display', '');
+                $('#signup-btn').prop('disabled', true);
+            } else {
+                $('#passwords-not-match').hide();
+                $('#signup-btn').prop('disabled', false);
+            }
+        })
+    })
+</script>
+
+</body>
+</html>

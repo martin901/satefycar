@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <title>All requests</title>
+    <!-- CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/css/animate.min.css" rel="stylesheet">
+    <link href="/css/owl.carousel.css" rel="stylesheet">
+    <link href="/css/owl.transitions.css" rel="stylesheet">
+    <link href="/css/prettyPhoto.css" rel="stylesheet">
+    <link href="/css/main.css" rel="stylesheet">
+    <link href="/css/styles.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="/js/html5shiv.js"></script>
+    <script src="/js/respond.min.js"></script>
+    <![endif]-->
+    <link rel="shortcut icon" href="/images/ico/favicon.png">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/images/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/images/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/images/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="/images/ico/apple-touch-icon-57-precomposed.png">
+</head><!--/head-->
+
+<body id="home" class="homepage">
+
+<header id="header">
+    <nav id="main-menu" class="navbar navbar-default navbar-fixed-top" role="banner">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/"><img src="/images/logo.png" alt="logo"></a>
+            </div>
+
+            <div class="collapse navbar-collapse navbar-right">
+                <ul class="nav navbar-nav">
+                    <li class="scroll"><a href="/profile">Profile</a></li>
+                    <li class="scroll"><a href="/requests">My Requests</a></li>
+                    <li sec:authorize="hasRole('ADMIN')" class="scroll active"><a href="/admin/requests">All Requests</a></li>
+                    <li sec:authorize="hasRole('ADMIN')" class="scroll"><a href="/admin/upload">Upload table</a></li>
+                    <li class="scroll" style="font-weight: bold;"><a sec:authorize="isAnonymous()" href="/login">Login</a></li>
+                    <li class="scroll" style="font-weight: bold; cursor: pointer"><a sec:authorize="isAuthenticated()" sec:authentication="name" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/profile">Profile</a></li>
+                            <li><a href="/requests">My requests</a></li>
+                            <li sec:authorize="hasRole('ADMIN')"><a href="/admin/requests">All requests</a></li>
+                            <li sec:authorize="hasRole('ADMIN')"><a href="/admin/upload">Upload table</a></li>
+                            <li><a style="font-weight: bold;" th:href="@{/logout}">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div><!--/.container-->
+    </nav><!--/nav-->
+</header><!--/header-->
+
+<br>
+<br>
+<br>
+<div class="section-header">
+    <h2 class="section-title text-center">All Requests</h2>
+    <p class="text-center fadeInDown"
+       th:text="'Hello ' + ${user.name.firstName} + ', this is the place where you can see all user requests.'"></p>
+</div>
+<section id="requests">
+    <div class="container">
+        <div class="filter center-block" style="width: 80%">
+            <form id="submitFrm" action="#" th:action="@{/admin/requests}" th:method="GET">
+                <div class="input-group">
+                    <input type="text" id="user" name="" th:value="${searchUser}" class="form-control"
+                           placeholder="Enter username..." style="margin-bottom: 10px;">
+                    <input type="date" id="fromDate" name="" th:value="${fromDate}"
+                           placeholder="Enter request date from..." class="form-control" style="margin-bottom: 10px;">
+                    <input type="date" id="toDate" name="" th:value="${toDate}" placeholder="Enter request date to..."
+                           class="form-control" style="margin-bottom: 10px;">
+                    <select name="" id="status" class="form-control">
+                        <option th:each="status : ${requestsStatuses}" th:value="${status}"
+                                th:text="${status.getViewName()}">
+                        </option>
+                    </select>
+                    <span class="input-group-btn">
+                     <button class="btn btn-primary btn-lg" type="submit" style="margin-left: 10px;">Search</button>
+                 </span>
+                </div>
+            </form>
+        </div>
+        <br>
+        <br>
+        <br>
+        <div class="row">
+            <div class="col-md-12 text-center" th:if="${page.content.isEmpty()}">
+                <h3>No requests were found.</h3>
+                <br>
+            </div>
+            <div th:each="policyrequest : ${page.content}">
+                <div class="col-md-6" style="position: relative;">
+                    <div class="well"
+                         style="position: relative;box-shadow: -34px 28px 39px -33px rgba(135,135,135,0.83);margin:20px; max-width:430px;margin-top: 0;">
+                        <span th:if="${policyrequest.requestStatus == approved}" style="font-size: 100%"
+                              class="label label-success">Approved</span>
+                        <span th:if="${policyrequest.requestStatus == pending}" style="font-size: 100%"
+                              class="label label-warning">Pending</span>
+                        <span th:if="${policyrequest.requestStatus == declined}" style="font-size: 100%"
+                              class="label label-danger">Declined</span>
+                        <span th:if="${policyrequest.requestStatus == canceled}" style="font-size: 100%"
+                              class="label label-default">Canceled</span>
+                        <span th:if="${policyrequest.requestStatus == expired}" style="font-size: 100%"
+                              class="label label-default">Expired</span>
+                        <h3 th:text="${policyrequest.offer.carModel.carBrand.brandName}
+                                + ' ' +${policyrequest.offer.carModel.modelName}"></h3>
+                        <h4 th:text="'Car manuf. date: ' + ${policyrequest.offer.firstRegDate.getDayOfMonth()}+'/' +
+                                ${policyrequest.offer.firstRegDate.getMonthValue()} + '/'+
+                                ${policyrequest.offer.firstRegDate.getYear()}"></h4>
+                        <h4 th:text="'Cubic Capacity: ' + ${policyrequest.offer.cubicCapacity} + 'cc'"></h4>
+                        <h4>Reg. certificate: <a th:href="@{'/requests/'+ ${policyrequest.id} + '/img'}">View</a>
+                        </h4>
+                        <h4 th:text="'Effective Date: ' + ${policyrequest.effectiveDate.getDayOfMonth()}+'/' +
+                                ${policyrequest.effectiveDate.getMonthValue()} + '/'+
+                                ${policyrequest.effectiveDate.getYear()}"></h4>
+                        <h4 th:text="'Requester Name: ' + ${policyrequest.user.name}"></h4>
+                        <h4 th:text="'Requester Email: ' + ${policyrequest.user.email}"></h4>
+                        <h4 th:text="${policyrequest.offer.hadAccident} ? 'Had Accident: Yes' : 'Had Accident: No'"></h4>
+                        <h4 th:text="'Driver Age: ' + ${policyrequest.offer.driverAge}"></h4>
+                        <h3 th:text="'Total Premium: ' + ${policyrequest.offer.totalPremium}+' BGN'"></h3>
+                        <form th:if="${policyrequest.requestStatus == pending}" action="#"
+                              th:action="@{'/admin/requests/' + ${policyrequest.id}}" th:method="PUT">
+                            <button type="submit" class="btn btn-success btn-lg" name="status"
+                                    style="position: relative;" value="approved"><i class="fa fa-check"></i> Approve
+                            </button>
+                            <button type="submit" class="btn btn-danger btn-lg" name="status"
+                                    style="position: relative;" value="declined"><i class="fa fa-times"></i> Decline
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+
+
+            <div class="col-sm-16">
+                <!-- Pagination Bar -->
+                <div th:fragment='paginationbar' th:if="${size > 8}">
+                    <div class="text-center">
+                        <ul class='pagination pagination-centered'>
+                            <li th:class="${page.firstPage}?'disabled':''">
+                                <span th:if='${page.firstPage}'>← First</span>
+                                <a th:if='${not page.firstPage}'
+                                   th:href='@{${page.url}(page=0,size=${page.size})}'>←
+                                    First</a>
+                            </li>
+                            <li th:class="${page.hasPreviousPage}? '' : 'disabled'">
+                                <span th:if='${not page.hasPreviousPage}'>«</span>
+                                <a th:if='${page.hasPreviousPage}'
+                                   th:href='@{${page.url}(page=${page.number-2},size=${page.size})}'
+                                   title='Go to previous page'>«</a>
+                            </li>
+                            <li th:each='item : ${page.items}' th:class="${item.current}? 'active' : ''">
+                                <span th:if='${item.current}' th:text='${item.number}'>1</span>
+                                <a th:if='${not item.current}'
+                                   th:href='@{${page.url}(page=${item.number-1},size=${page.size})}'><span
+                                        th:text='${item.number}'>1</span></a>
+                            </li>
+                            <li th:class="${page.hasNextPage}? '' : 'disabled'">
+                                <span th:if='${not page.hasNextPage}'>»</span>
+                                <a th:if='${page.hasNextPage}'
+                                   th:href='@{${page.url}(page=${page.number},size=${page.size})}'
+                                   title='Go to next page'>»</a>
+                            </li>
+                            <li th:class="${page.lastPage}? 'disabled' : ''">
+                                <span th:if='${page.lastPage}'>Last →</span>
+                                <a th:if='${not page.lastPage}'
+                                   th:href='@{${page.url}(page=${page.totalPages - 1},size=${page.size})}'>Last
+                                    →</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<br>
+<br>
+
+<footer id="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6">
+                &copy; 2019 Safety Car.
+            </div>
+            <div class="col-sm-6">
+                <ul class="social-icons">
+                    <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                    <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                    <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                    <li><a href="#"><i class="fa fa-youtube"></i></a></li>
+                    <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer><!--/#footer-->
+
+
+<script src="/js/jquery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/owl.carousel.min.js"></script>
+<script src="/js/mousescroll.js"></script>
+<script src="/js/smoothscroll.js"></script>
+<script src="/js/jquery.prettyPhoto.js"></script>
+<script src="/js/jquery.isotope.min.js"></script>
+<script src="/js/jquery.inview.min.js"></script>
+<script src="/js/wow.min.js"></script>
+<script src="/js/main.js"></script>
+<script>
+    $('#submitFrm').ready(function () {
+        $('#submitFrm').on("submit", function () {
+            var valueUser = $('#user').val();
+            if (valueUser !== '') {
+                $('#user').prop("name", "user");
+            }
+            var valueFromDate = $('#fromDate').val();
+            if (valueFromDate !== '') {
+                $('#fromDate').prop("name", "fromDate");
+            }
+            var valueToDate = $('#toDate').val();
+            if (valueToDate !== '') {
+                $('#toDate').prop("name", "toDate");
+            }
+            var valueStatus = $('#status').val();
+            if (valueStatus !== '') {
+                $("#status").prop("name", "status");
+            }
+        })
+    })
+</script>
+<script>
+    function getUrlVars() {
+        var vars = [], hash;
+        var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+        for (var i = 0; i < hashes.length; i++) {
+            hash = hashes[i].split('=');
+            vars.push(hash[0]);
+            vars[hash[0]] = hash[1];
+        }
+        return vars;
+    }
+
+    var fromDate = getUrlVars()["fromDate"];
+    if (fromDate !== undefined && fromDate !== '') {
+        $("#fromDate").val(fromDate);
+    } else {
+        $("#fromDate").prop("type", "text");
+        $("#fromDate").click(function () {
+            $("#fromDate").prop("type", "date")
+        });
+    }
+    var toDate = getUrlVars()["toDate"];
+    if (toDate !== undefined && toDate !== '') {
+        $("#toDate").val(toDate);
+    } else {
+        $("#toDate").prop("type", "text");
+        $("#toDate").click(function () {
+            $("#toDate").prop("type", "date")
+        });
+    }
+    var status = getUrlVars()["status"] === undefined || '' ? 'PENDING' : getUrlVars()["status"];
+    if (status !== undefined && status !== '') {
+        $("#status").val(status);
+    }
+</script>
+</body>
+</html>

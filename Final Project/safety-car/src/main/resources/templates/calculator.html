@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Insurance Calculator</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="/images/icons/favicon.png"/>
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/vendor/bootstrap/css/bootstrap.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/fonts/iconic/css/material-design-iconic-font.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/vendor/animate/animate.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/vendor/css-hamburgers/hamburgers.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/vendor/animsition/css/animsition.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/vendor/select2/select2.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/vendor/daterangepicker/daterangepicker.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/css/login-util.css">
+    <link rel="stylesheet" type="text/css" href="/css/login-main.css">
+    <!--===============================================================================================-->
+</head>
+<body style="min-width: 200px;">
+
+<div class="header row">
+    <a href="/" class="col-md-2" style="text-align: center;"><span class="login100">
+		<img src="/images/avatar-01.png"
+             style="width: 73px; position: relative; margin: 20px; -webkit-filter: drop-shadow(5px 5px 5px #ddd); filter: drop-shadow(5px 5px 5px #ddd);"
+             alt="LOGO">
+	</span></a>
+    <span class="login100-form-title p-b-70 col-md-8"
+          style="text-shadow: -6px 6px 10px rgba(116,116,116,0.6); font-size: 60px; padding-bottom: 35px; padding-top: 35px;">
+		Insurance Calculator
+	</span>
+</div>
+
+<div class="limiter center-block">
+    <div class="container container-login100 center-block" style="min-height: 0; position: relative;">
+        <div class="wrap-login100 p-t-5 p-b-20" style="width: 60%; min-width: 350px;">
+            <div class="row">
+                <form class="login100-form validate-form calculation col-md-12" th:action="@{/calculator}"
+                      name="calculator"
+                      th:object="${calculator}" method="post">
+                    <div class="border border-danger rounded"
+                         style="box-shadow: -34px 28px 39px -33px rgba(135,135,135,0.83);position: relative;">
+
+                        <div class="row" style="width: 100%; padding-left: 25%; padding-right: 25%; position: relative; margin-left: 0;">
+                            <div class="wrap-input100 validate-input m-t-55 m-b-25" data-validate="Enter Car Make">
+                                    <select name="carBrand" id="carBrand" class="input100" th:field="*{offer.carModel.carBrand}" style="border-color: white" th:required="required">
+                                        <option selected value="">
+                                            Car Make
+                                        </option>
+                                        <option th:each="carBrand : ${carBrands}" th:value="${carBrand.id}"
+                                                th:text="${carBrand.brandName}"></option>
+                                    </select>
+                                <span class="focus-input100" data-placeholder="Car Make"></span>
+                            </div>
+                            <div class="wrap-input100 validate-input m-b-25" data-validate="Enter Car Model">
+                                <select name="carModel" id="carModel" class="input100" th:field="*{offer.carModel}" style="border-color: white" th:required="required">
+                                    <option disabled="disabled" selected="selected" value="">
+                                        Car Model
+                                    </option>
+                                </select>
+                                <span class="focus-input100" data-placeholder="Car Model"></span>
+                            </div>
+
+                        </div>
+
+                        <div class="row" style="width: 100%;position: relative;padding-left: 25%;padding-right: 25%;margin-left: 0;">
+                            <div class="wrap-input100 validate-input m-b-25"
+                                 data-validate="Cubic Capacity">
+                                <input id="cubic-capacity-field" class="input100" type="text" name="cubicCapacity"
+                                       th:field="*{offer.cubicCapacity}" th:required="required">
+                                <span class="focus-input100" data-placeholder="Cubic Capacity"></span>
+                                <span th:if="${#fields.hasErrors('offer.cubicCapacity')}"
+                                      th:errors="*{offer.cubicCapacity}">Cubic Capacity Error</span>
+                            </div>
+                            <div class="wrap-input100 validate-input m-b-25"
+                                 data-validate="First Registration Date">
+                                <input id="firstRegDate" class="input100" type="date" name="firstRegDate"
+                                       style="font-size: 16px"
+                                       th:field="*{offer.firstRegDate}"
+                                       th:value="${calculator.offer.firstRegDate}"
+                                       required>
+                                <span class="focus-input100" data-placeholder="First Registration"></span>
+                                <span th:if="${#fields.hasErrors('offer.firstRegDate')}" th:errors="*{offer.firstRegDate}">
+                                    First Reg Date Error
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="row" style="width: 100%;position: relative;padding-left: 25%;padding-right: 25%;margin-left: 0;">
+                            <div class="wrap-input100 validate-input m-b-25"
+                                 data-validate="Enter if you had an accident">
+                                <input class="input100" type="checkbox" name="hadAccident" th:field="${calculator.offer.hadAccident}"
+                                       style="margin: 11px;position: relative;left: 34%;height: 30px;">
+                                <span class="focus-input100" data-placeholder="Had Accident" style="width: 78%"></span>
+                            </div>
+
+                            <div class="wrap-input100 validate-input m-b-25" data-validate="Enter Age">
+                                <input id="driver-age-id" class="input100" type="text" name="driverAge"
+                                       th:field="*{offer.driverAge}" required>
+                                <span class="focus-input100" data-placeholder="Driver Age"></span>
+                                <span th:if="${#fields.hasErrors('offer.driverAge')}" th:errors="*{offer.driverAge}">Driver Age Error</span>
+                            </div>
+                        </div>
+
+                        <div class="container-login100-form-btn">
+                            <button class="login100-form-btn calculate" style="width: 50%; margin-bottom: 20px" type="submit">
+                                Calculate
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="result" class="col-md-12" th:unless="${isNotCreated == true or hasErrors == true}" style="padding-left: 20%; padding-right: 20%;">
+    <div class="row p-t-15 p-b-20"
+         style="color: transparent;background: #666666;-webkit-background-clip: text;-moz-background-clip: text;background-clip: text;text-shadow: 0px 3px 3px rgba(255,255,255,0.5); position: relative; padding-left: 10%; padding-right: 10%; justify-content: center;">
+        <img src="/images/speical-offer.png" alt="Special Offer" style="position: relative; width: 370px; transform: rotate(15deg); padding: 30px;
+">
+    </div>
+    <div class="row p-t-15 p-b-20"
+         style="color: transparent; text-align: center; background: #666666;-webkit-background-clip: text;-moz-background-clip: text;background-clip: text;text-shadow: 0px 3px 3px rgba(255,255,255,0.5); position: relative; padding-left: 16.7%; padding-right: 16.7%; justify-content: center; margin:0;">
+        <hr width="100%">
+        <strong th:inline="text"
+                style="font-size: 30px; margin-left: 20px; margin-right: 20px;
+}">Total Premium:</strong>
+        <strong th:inline="text"
+                style="font-size: 30px; padding-bottom: 5px">[[${calculatorResult.calculateTotalPremium()}]] BGN</strong>
+        <hr width="100%">
+    </div>
+    <div class="container-login100-form-btn" style="position: relative; top: 33.1%;">
+        <button class="login100-form-btn scroll" onclick="window.open('http://localhost:8080/offer');"
+                style="width: 150px; margin-bottom: 20px" type="button">
+            Generate Offer
+        </button>
+    </div>
+</div>
+
+
+<div id="dropDownSelect1"></div>
+
+<!--===============================================================================================-->
+<script src="/vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+<script src="/vendor/animsition/js/animsition.min.js"></script>
+<!--===============================================================================================-->
+<script src="/vendor/bootstrap/js/popper.js"></script>
+<script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+<script src="/vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+<script src="/vendor/daterangepicker/moment.min.js"></script>
+<script src="/vendor/daterangepicker/daterangepicker.js"></script>
+<!--===============================================================================================-->
+<script src="/vendor/countdowntime/countdowntime.js"></script>
+<!--===============================================================================================-->
+<script src="/js/login-main.js"></script>
+<script>
+    $(document).ready(function () {
+        if ($('#carBrand').val() !== "") {
+            $('#carBrand').focus();
+            $('#carBrand').blur();
+        }
+        if ($('#carModel').val() !== "") {
+            $('#carModel').focus();
+            $('#carModel').blur();
+        }
+        if ($('#cubic-capacity-field').val() !== "") {
+            $('#cubic-capacity-field').focus();
+        }
+        if ($('#firstRegDate').val() !== "") {
+            $('#firstRegDate').focus();
+        }
+        if ($('#driver-age-id').val() !== "") {
+            $('#driver-age-id').focus();
+            $('#driver-age-id').blur();
+        }
+    });
+
+    $('#carBrand').change(
+        function() {
+            $.getJSON("http://localhost:8080/calculator/models", {
+                carBrandId : $(this).val(),
+                ajax : 'true'
+            }, function(data) {
+                var html = '<option value="">Car Model</option>';
+                var len = data.length;
+                for ( var i = 0; i < len; i++) {
+                    html += '<option value="' + data[i].id + '">'
+                        + data[i].modelName + '</option>';
+                }
+                html += '</option>';
+                $('#carModel').html(html);
+            });
+        });
+
+
+    if($("#result").length !== 0) {
+        $('html,body').animate({
+                scrollTop: $("#result").offset().top},
+            3200);
+    }
+
+</script>
+</body>
+</html>
